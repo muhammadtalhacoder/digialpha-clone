@@ -1,4 +1,5 @@
 import { Facebook, Twitter, Instagram, MessageCircle } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
@@ -8,10 +9,10 @@ const Footer = () => {
           {/* Logo */}
           <div className="md:col-span-1">
             <h3 className="font-display text-2xl tracking-wider text-gradient mb-4">
-              DIGI DESIGNS
+              FURSUIT DESIGN X
             </h3>
             <p className="text-muted-foreground text-sm">
-              The Ultimate Solutions for Streamers, Gamers, And Content Creators
+              Premium Fursuit Design & Custom Character Art for Creators Worldwide
             </p>
             <div className="flex gap-4 mt-6">
               <a href="#" className="text-muted-foreground hover:text-primary transition-colors">
@@ -33,40 +34,41 @@ const Footer = () => {
           <div>
             <h4 className="font-semibold text-foreground mb-4">Services</h4>
             <ul className="space-y-2">
-              <li><a href="#" className="text-muted-foreground hover:text-foreground transition-colors text-sm">Mascot Gaming Logo</a></li>
-              <li><a href="#" className="text-muted-foreground hover:text-foreground transition-colors text-sm">Gaming Banners</a></li>
-              <li><a href="#" className="text-muted-foreground hover:text-foreground transition-colors text-sm">Emotes</a></li>
-              <li><a href="#" className="text-muted-foreground hover:text-foreground transition-colors text-sm">Subs Badges</a></li>
+              <li><Link to="/gallery" className="text-muted-foreground hover:text-foreground transition-colors text-sm">Fursuit Designs</Link></li>
+              <li><Link to="/gallery" className="text-muted-foreground hover:text-foreground transition-colors text-sm">Banners</Link></li>
+              <li><Link to="/gallery" className="text-muted-foreground hover:text-foreground transition-colors text-sm">Emotes</Link></li>
+              <li><Link to="/gallery" className="text-muted-foreground hover:text-foreground transition-colors text-sm">Subs Badges</Link></li>
             </ul>
           </div>
 
-          {/* Services 2 */}
+          {/* Pages */}
           <div>
-            <h4 className="font-semibold text-foreground mb-4">More Services</h4>
+            <h4 className="font-semibold text-foreground mb-4">Pages</h4>
             <ul className="space-y-2">
-              <li><a href="#" className="text-muted-foreground hover:text-foreground transition-colors text-sm">Stream Overlays</a></li>
-              <li><a href="#" className="text-muted-foreground hover:text-foreground transition-colors text-sm">VTuber Models</a></li>
-              <li><a href="#" className="text-muted-foreground hover:text-foreground transition-colors text-sm">Thumbnails</a></li>
+              <li><Link to="/" className="text-muted-foreground hover:text-foreground transition-colors text-sm">Home</Link></li>
+              <li><Link to="/about" className="text-muted-foreground hover:text-foreground transition-colors text-sm">About Us</Link></li>
+              <li><Link to="/gallery" className="text-muted-foreground hover:text-foreground transition-colors text-sm">Gallery</Link></li>
+              <li><Link to="/contact" className="text-muted-foreground hover:text-foreground transition-colors text-sm">Contact</Link></li>
             </ul>
           </div>
 
           {/* Contact */}
           <div>
             <h4 className="font-semibold text-foreground mb-4">Need Help?</h4>
-            <p className="text-muted-foreground text-sm mb-4">Chat with us on WhatsApp</p>
-            <a 
-              href="#" 
-              className="inline-flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg transition-colors"
+            <p className="text-muted-foreground text-sm mb-4">Chat with us on Discord or WhatsApp</p>
+            <Link 
+              to="/contact"
+              className="inline-flex items-center gap-2 bg-primary hover:bg-primary/80 text-primary-foreground px-4 py-2 rounded-lg transition-colors"
             >
               <MessageCircle className="w-4 h-4" />
-              Start a Conversation
-            </a>
+              Contact Us
+            </Link>
           </div>
         </div>
 
         <div className="border-t border-border/50 pt-8 text-center">
           <p className="text-muted-foreground text-sm">
-            Copyright © 2025 Digi Designs. All Rights Reserved.
+            Copyright © 2025 FurSuit Design X. All Rights Reserved.
           </p>
         </div>
       </div>

@@ -1,4 +1,5 @@
 import ServiceCard from "./ServiceCard";
+import ScrollReveal from "./ScrollReveal";
 import mascotLogo from "@/assets/mascot-logo.jpg";
 import bannerDesign from "@/assets/banner-design.jpg";
 import emotes from "@/assets/emotes.jpg";
@@ -9,18 +10,18 @@ import thumbnails from "@/assets/thumbnails.jpg";
 
 const services = [
   {
-    subtitle: "Custom And Professional 🤗🔥",
-    title: "MASCOT GAMING LOGO",
-    description: "Mascot Gaming Logo Design – Perfect Blend of Creativity and Precision",
+    subtitle: "Custom And Professional 🐺🔥",
+    title: "FURSUIT DESIGNS",
+    description: "Professional Fursuit Design – Perfect Blend of Creativity and Precision for Your Fursona",
     features: [
-      "Mascot Gaming Logo Design",
-      "Custom Mascot Design",
-      "2D & 3D Logo Design",
-      "Esports Logo Design",
-      "Professional Logo Design"
+      "Custom Fursuit Head Design",
+      "Full Body Fursuit Art",
+      "Reference Sheet Design",
+      "Character Turnarounds",
+      "Color Palette Selection"
     ],
     image: mascotLogo,
-    ctaText: "View Logo"
+    ctaText: "View Designs"
   },
   {
     subtitle: "Professional 😎",
@@ -29,9 +30,9 @@ const services = [
     features: [
       "Banner Design",
       "YouTube Cover Design",
-      "VTuber Thumbnails",
-      "Gaming VTubers",
-      "Education Banners"
+      "Furry Art Banners",
+      "Convention Banners",
+      "Social Media Headers"
     ],
     image: bannerDesign,
     ctaText: "View Banners"
@@ -39,13 +40,13 @@ const services = [
   {
     subtitle: "Express Your Feelings 😄😖",
     title: "EMOTES",
-    description: "Custom Emote Design – Express Your Unique Style",
+    description: "Custom Emote Design – Express Your Unique Style with Your Fursona",
     features: [
-      "Custom Emotes",
+      "Custom Furry Emotes",
       "Twitch Emotes",
       "Discord Emotes",
-      "VTuber Emotes",
-      "Gaming Emotes"
+      "Telegram Stickers",
+      "Expression Packs"
     ],
     image: emotes,
     ctaText: "View Emotes"
@@ -71,9 +72,9 @@ const services = [
     features: [
       "Stream Overlays",
       "Custom Twitch Overlays",
-      "VTuber Overlays",
+      "Furry Themed Overlays",
       "Animated Overlays",
-      "Static Stream Overlays"
+      "Alert Animations"
     ],
     image: streamOverlay,
     ctaText: "View Overlays"
@@ -81,13 +82,13 @@ const services = [
   {
     subtitle: "Completely Rigged 🧡😻",
     title: "VTUBER MODELS",
-    description: "Custom VTuber Models – Bring Your Virtual Persona to Life",
+    description: "Custom VTuber Models – Bring Your Fursona to Life",
     features: [
-      "VTuber Models",
-      "Custom VTuber Design",
-      "2D VTuber Models",
-      "3D VTuber Characters",
-      "VTuber Rigging"
+      "Furry VTuber Models",
+      "Custom 2D Models",
+      "3D Furry Characters",
+      "Live2D Rigging",
+      "Expression Toggle Setup"
     ],
     image: vtuberModel,
     ctaText: "View VTuber Models"
@@ -95,13 +96,13 @@ const services = [
   {
     subtitle: "New Startup ❤🚀",
     title: "THUMBNAILS",
-    description: "VTubers encompass a diverse range of models and services tailored to various audiences and interests.",
+    description: "Eye-catching thumbnails that get clicks and showcase your content",
     features: [
       "YouTube Thumbnails",
       "Custom Thumbnail Design",
+      "Furry Art Thumbnails",
       "Gaming Thumbnails",
-      "VTuber Thumbnails",
-      "Click-Worthy Thumbnails"
+      "Click-Worthy Designs"
     ],
     image: thumbnails,
     ctaText: "View Thumbnails"
@@ -114,16 +115,16 @@ const ServicesSection = () => {
       <div className="container mx-auto px-4">
         <div className="space-y-24 md:space-y-32">
           {services.map((service, index) => (
-            <div 
+            <ScrollReveal 
               key={index} 
-              className="animate-fade-in"
-              style={{ animationDelay: `${index * 0.1}s` }}
+              direction={index % 2 === 0 ? "left" : "right"}
+              delay={0.1}
             >
               <ServiceCard
                 {...service}
                 reversed={index % 2 === 1}
               />
-            </div>
+            </ScrollReveal>
           ))}
         </div>
       </div>
