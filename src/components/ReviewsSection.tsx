@@ -1,12 +1,13 @@
 import { Star } from "lucide-react";
+import ScrollReveal from "./ScrollReveal";
 
 const reviews = [
-  { name: "StreamerKing", rating: 5, text: "Amazing mascot logo! Exceeded expectations." },
-  { name: "GamerGirl99", rating: 5, text: "Best emotes I've ever had. So expressive!" },
-  { name: "ProPlayer_X", rating: 5, text: "The overlays transformed my stream completely." },
-  { name: "VTuberStar", rating: 5, text: "My VTuber model is absolutely perfect!" },
-  { name: "ContentKing", rating: 5, text: "Thumbnails that actually get clicks. Worth it!" },
-  { name: "TwitchLegend", rating: 5, text: "Fast delivery, incredible quality. 10/10!" },
+  { name: "FurryCreator_X", rating: 5, text: "Amazing fursuit design! Exceeded all expectations." },
+  { name: "StreamerWolf99", rating: 5, text: "Best emotes I've ever had. So expressive and cute!" },
+  { name: "VTuberFox", rating: 5, text: "The VTuber model is absolutely perfect. Love it!" },
+  { name: "GamingFurry", rating: 5, text: "My channel looks professional now. Worth every penny!" },
+  { name: "ArtistPanda", rating: 5, text: "Fast delivery, incredible quality. 10/10 recommend!" },
+  { name: "FurConArtist", rating: 5, text: "Reference sheets are so detailed and accurate!" },
 ];
 
 const ReviewCard = ({ name, rating, text }: { name: string; rating: number; text: string }) => (
@@ -25,15 +26,17 @@ const ReviewsSection = () => {
   return (
     <section id="reviews" className="py-20 md:py-32 overflow-hidden">
       <div className="container mx-auto px-4 mb-12">
-        <p className="text-primary font-medium text-sm uppercase tracking-wider mb-2 text-center">
-          Riding the Creative Currents
-        </p>
-        <h2 className="font-display text-4xl md:text-5xl lg:text-6xl tracking-wide text-center">
-          DIGI DESIGN REVIEWS
-        </h2>
-        <p className="mt-4 text-muted-foreground text-center max-w-2xl mx-auto">
-          DesignWaves inundates with a tsunami of creativity, blending innovation and style seamlessly.
-        </p>
+        <ScrollReveal>
+          <p className="text-primary font-medium text-sm uppercase tracking-wider mb-2 text-center">
+            What Our Clients Say
+          </p>
+          <h2 className="font-display text-4xl md:text-5xl lg:text-6xl tracking-wide text-center">
+            FURSUIT DESIGN X REVIEWS
+          </h2>
+          <p className="mt-4 text-muted-foreground text-center max-w-2xl mx-auto">
+            Join hundreds of satisfied creators who brought their characters to life with us
+          </p>
+        </ScrollReveal>
       </div>
 
       {/* Marquee */}
