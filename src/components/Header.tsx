@@ -50,13 +50,14 @@ const Header = () => {
     { href: "/", label: "Home" },
     { href: "/about", label: "About Us" },
     { href: "/gallery", label: "Gallery" },
+    { href: "/pricing", label: "Pricing" },
     { href: "/contact", label: "Contact" },
   ];
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-border/50">
       <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-        <Link to="/" className="font-display text-xl md:text-2xl tracking-wider text-gradient">
+        <Link to="/" className="font-display text-xl md:text-2xl tracking-wider text-foreground glow-text-white">
           FURSUIT DESIGN X
         </Link>
         
@@ -65,7 +66,7 @@ const Header = () => {
             <Link 
               key={link.href}
               to={link.href} 
-              className="text-muted-foreground hover:text-foreground transition-colors text-sm"
+              className="text-muted-foreground hover:text-foreground transition-colors text-sm font-medium"
             >
               {link.label}
             </Link>
@@ -74,7 +75,7 @@ const Header = () => {
           {isAdmin && (
             <Link 
               to="/admin" 
-              className="text-primary hover:text-primary/80 transition-colors text-sm font-medium"
+              className="text-primary hover:text-primary/80 transition-colors text-sm font-semibold"
             >
               Admin
             </Link>
@@ -114,7 +115,7 @@ const Header = () => {
               <Link 
                 key={link.href}
                 to={link.href} 
-                className="text-muted-foreground hover:text-foreground transition-colors"
+                className="text-muted-foreground hover:text-foreground transition-colors font-medium"
                 onClick={() => setIsOpen(false)}
               >
                 {link.label}
@@ -123,7 +124,7 @@ const Header = () => {
             {isAdmin && (
               <Link 
                 to="/admin" 
-                className="text-primary hover:text-primary/80 transition-colors font-medium"
+                className="text-primary hover:text-primary/80 transition-colors font-semibold"
                 onClick={() => setIsOpen(false)}
               >
                 Admin Panel
