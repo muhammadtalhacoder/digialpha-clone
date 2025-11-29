@@ -33,7 +33,7 @@ const HeroSection = () => {
       {/* Title */}
       <div className="relative z-10 text-center px-4 -mt-32">
         <motion.h1 
-          className="font-display text-5xl md:text-7xl lg:text-9xl tracking-wider glow-text text-gradient"
+          className="font-display text-5xl md:text-7xl lg:text-9xl tracking-wider glow-text-white text-foreground"
           initial={{ y: -50, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.8 }}
