@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { supabase } from "@/integrations/supabase/client";
+import { fetchGalleryItems, GalleryItem } from "@/lib/sanity";
 import ScrollReveal from "./ScrollReveal";
 import { Button } from "./ui/button";
 import { ArrowRight, Loader2 } from "lucide-react";
@@ -13,13 +13,6 @@ import subBadges from "@/assets/sub-badges.jpg";
 import streamOverlay from "@/assets/stream-overlay.jpg";
 import vtuberModel from "@/assets/vtuber-model.jpg";
 
-interface Product {
-  id: string;
-  title: string;
-  category: string;
-  image_url: string | null;
-}
-
 const defaultImages: Record<string, string> = {
   "fursuit": mascotLogo,
   "banners": bannerDesign,
@@ -29,37 +22,27 @@ const defaultImages: Record<string, string> = {
   "vtuber": vtuberModel,
 };
 
-const defaultItems = [
-  { id: "1", title: "Fierce Lion Mascot", category: "Fursuit", image_url: mascotLogo },
-  { id: "2", title: "Gaming Banner", category: "Banners", image_url: bannerDesign },
-  { id: "3", title: "Emote Pack", category: "Emotes", image_url: emotes },
-  { id: "4", title: "Sub Badges Set", category: "Badges", image_url: subBadges },
-  { id: "5", title: "Stream Overlay", category: "Overlays", image_url: streamOverlay },
-  { id: "6", title: "VTuber Model", category: "VTuber", image_url: vtuberModel },
+const defaultItems: GalleryItem[] = [
+  { _id: "1", title: "Fierce Lion Mascot", category: "Fursuit", imageUrl: mascotLogo },
+  { _id: "2", title: "Gaming Banner", category: "Banners", imageUrl: bannerDesign },
+  { _id: "3", title: "Emote Pack", category: "Emotes", imageUrl: emotes },
+  { _id: "4", title: "Sub Badges Set", category: "Badges", imageUrl: subBadges },
+  { _id: "5", title: "Stream Overlay", category: "Overlays", imageUrl: streamOverlay },
+  { _id: "6", title: "VTuber Model", category: "VTuber", imageUrl: vtuberModel },
 ];
 
 const GalleryPreview = () => {
-  const [products, setProducts] = useState<Product[]>([]);
+  const [items, setItems] = useState<GalleryItem[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetchProducts();
+    const loadItems = async () => {
+      const data = await fetchGalleryItems();
+      setItems(data.length > 0 ? data.slice(0, 6) : defaultItems);
+      setLoading(false);
+    };
+    loadItems();
   }, []);
-
-  const fetchProducts = async () => {
-    const { data, error } = await supabase
-      .from("products")
-      .select("id, title, category, image_url")
-      .order("created_at", { ascending: false })
-      .limit(6);
-
-    if (!error && data && data.length > 0) {
-      setProducts(data);
-    }
-    setLoading(false);
-  };
-
-  const displayItems = products.length > 0 ? products : defaultItems;
 
   return (
     <section className="py-24 relative overflow-hidden" id="gallery">
@@ -83,14 +66,14 @@ const GalleryPreview = () => {
           </div>
         ) : (
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6 mb-12">
-            {displayItems.map((item, index) => (
-              <ScrollReveal key={item.id} delay={index * 0.1}>
+            {items.map((item, index) => (
+              <ScrollReveal key={item._id} delay={index * 0.1}>
                 <motion.div
                   whileHover={{ scale: 1.05 }}
                   className="group relative aspect-square rounded-xl overflow-hidden border border-border/50"
                 >
                   <img
-                    src={item.image_url || defaultImages[item.category.toLowerCase()] || mascotLogo}
+                    src={item.imageUrl || defaultImages[item.category.toLowerCase()] || mascotLogo}
                     alt={item.title}
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                   />
