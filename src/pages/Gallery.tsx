@@ -4,7 +4,7 @@ import Footer from "@/components/Footer";
 import CursorEffect from "@/components/CursorEffect";
 import ScrollReveal from "@/components/ScrollReveal";
 import { motion, AnimatePresence } from "framer-motion";
-import { supabase } from "@/integrations/supabase/client";
+import { fetchGalleryItems, GalleryItem } from "@/lib/sanity";
 import { Loader2 } from "lucide-react";
 
 // Import default images
@@ -15,15 +15,6 @@ import subBadges from "@/assets/sub-badges.jpg";
 import streamOverlay from "@/assets/stream-overlay.jpg";
 import vtuberModel from "@/assets/vtuber-model.jpg";
 import thumbnails from "@/assets/thumbnails.jpg";
-
-interface Product {
-  id: string;
-  title: string;
-  description: string | null;
-  category: string;
-  image_url: string | null;
-  price: number | null;
-}
 
 const defaultImages: Record<string, string> = {
   "fursuit": mascotLogo,
@@ -37,45 +28,33 @@ const defaultImages: Record<string, string> = {
 
 const categories = ["All", "Fursuit", "Banners", "Emotes", "Badges", "Overlays", "VTuber", "Thumbnails"];
 
+const defaultItems: GalleryItem[] = [
+  { _id: "1", title: "Fierce Lion Mascot", category: "Fursuit", imageUrl: mascotLogo, description: "Custom fursuit head design", price: 150 },
+  { _id: "2", title: "Gaming Banner", category: "Banners", imageUrl: bannerDesign, description: "YouTube channel banner", price: 50 },
+  { _id: "3", title: "Emote Pack", category: "Emotes", imageUrl: emotes, description: "Custom Twitch emotes", price: 80 },
+  { _id: "4", title: "Sub Badges Set", category: "Badges", imageUrl: subBadges, description: "Loyalty badges", price: 60 },
+  { _id: "5", title: "Stream Overlay", category: "Overlays", imageUrl: streamOverlay, description: "Animated overlay", price: 120 },
+  { _id: "6", title: "VTuber Model", category: "VTuber", imageUrl: vtuberModel, description: "Live2D character", price: 300 },
+  { _id: "7", title: "Thumbnail Pack", category: "Thumbnails", imageUrl: thumbnails, description: "YouTube thumbnails", price: 40 },
+];
+
 const Gallery = () => {
   const [selectedCategory, setSelectedCategory] = useState("All");
-  const [products, setProducts] = useState<Product[]>([]);
+  const [items, setItems] = useState<GalleryItem[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetchProducts();
+    const loadItems = async () => {
+      const data = await fetchGalleryItems();
+      setItems(data.length > 0 ? data : defaultItems);
+      setLoading(false);
+    };
+    loadItems();
   }, []);
 
-  const fetchProducts = async () => {
-    const { data, error } = await supabase
-      .from("products")
-      .select("*")
-      .order("created_at", { ascending: false });
-
-    if (!error && data) {
-      setProducts(data);
-    }
-    setLoading(false);
-  };
-
-  const filteredProducts = selectedCategory === "All" 
-    ? products 
-    : products.filter(p => p.category.toLowerCase() === selectedCategory.toLowerCase());
-
-  // Default gallery items when no products exist
-  const defaultItems = [
-    { id: "1", title: "Fierce Lion Mascot", category: "Fursuit", image_url: mascotLogo, description: "Custom fursuit head design", price: 150 },
-    { id: "2", title: "Gaming Banner", category: "Banners", image_url: bannerDesign, description: "YouTube channel banner", price: 50 },
-    { id: "3", title: "Emote Pack", category: "Emotes", image_url: emotes, description: "Custom Twitch emotes", price: 80 },
-    { id: "4", title: "Sub Badges Set", category: "Badges", image_url: subBadges, description: "Loyalty badges", price: 60 },
-    { id: "5", title: "Stream Overlay", category: "Overlays", image_url: streamOverlay, description: "Animated overlay", price: 120 },
-    { id: "6", title: "VTuber Model", category: "VTuber", image_url: vtuberModel, description: "Live2D character", price: 300 },
-    { id: "7", title: "Thumbnail Pack", category: "Thumbnails", image_url: thumbnails, description: "YouTube thumbnails", price: 40 },
-  ];
-
-  const displayItems = products.length > 0 ? filteredProducts : defaultItems.filter(
-    item => selectedCategory === "All" || item.category === selectedCategory
-  );
+  const filteredItems = selectedCategory === "All" 
+    ? items 
+    : items.filter(p => p.category.toLowerCase() === selectedCategory.toLowerCase());
 
   return (
     <div className="min-h-screen bg-background">
@@ -129,9 +108,9 @@ const Gallery = () => {
             ) : (
               <motion.div layout className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                 <AnimatePresence>
-                  {displayItems.map((item, index) => (
+                  {filteredItems.map((item, index) => (
                     <motion.div
-                      key={item.id}
+                      key={item._id}
                       layout
                       initial={{ opacity: 0, scale: 0.9 }}
                       animate={{ opacity: 1, scale: 1 }}
@@ -141,7 +120,7 @@ const Gallery = () => {
                     >
                       <div className="aspect-square overflow-hidden">
                         <img
-                          src={item.image_url || defaultImages[item.category.toLowerCase()] || mascotLogo}
+                          src={item.imageUrl || defaultImages[item.category.toLowerCase()] || mascotLogo}
                           alt={item.title}
                           className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                         />
@@ -160,7 +139,7 @@ const Gallery = () => {
               </motion.div>
             )}
 
-            {displayItems.length === 0 && !loading && (
+            {filteredItems.length === 0 && !loading && (
               <p className="text-center text-muted-foreground py-20">
                 No items found in this category yet.
               </p>

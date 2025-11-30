@@ -1,51 +1,32 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { supabase } from "@/integrations/supabase/client";
+import { fetchPricingItems, PricingItem } from "@/lib/sanity";
 import ScrollReveal from "./ScrollReveal";
 import { Button } from "./ui/button";
 import { Check, Loader2, ArrowRight } from "lucide-react";
 
-interface Product {
-  id: string;
-  title: string;
-  description: string | null;
-  category: string;
-  price: number | null;
-}
-
-const defaultPricing = [
-  { id: "1", title: "Custom Emotes", description: "High-quality Twitch/Discord emotes", category: "Emotes", price: 25 },
-  { id: "2", title: "Sub Badges", description: "Loyalty badges for your subscribers", category: "Badges", price: 40 },
-  { id: "3", title: "Stream Overlays", description: "Animated overlays for your stream", category: "Overlays", price: 100 },
-  { id: "4", title: "Fursuit Head Design", description: "Full custom fursuit head reference", category: "Fursuit", price: 200 },
-  { id: "5", title: "VTuber Model", description: "Live2D ready character model", category: "VTuber", price: 350 },
-  { id: "6", title: "Full Fursuit Reference", description: "Complete character reference sheet", category: "Fursuit", price: 500 },
+const defaultPricing: PricingItem[] = [
+  { _id: "1", title: "Custom Emotes", description: "High-quality Twitch/Discord emotes", category: "Emotes", price: 25 },
+  { _id: "2", title: "Sub Badges", description: "Loyalty badges for your subscribers", category: "Badges", price: 40 },
+  { _id: "3", title: "Stream Overlays", description: "Animated overlays for your stream", category: "Overlays", price: 100 },
+  { _id: "4", title: "Fursuit Head Design", description: "Full custom fursuit head reference", category: "Fursuit", price: 200 },
+  { _id: "5", title: "VTuber Model", description: "Live2D ready character model", category: "VTuber", price: 350 },
+  { _id: "6", title: "Full Fursuit Reference", description: "Complete character reference sheet", category: "Fursuit", price: 500 },
 ];
 
 const PricingSection = () => {
-  const [products, setProducts] = useState<Product[]>([]);
+  const [items, setItems] = useState<PricingItem[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetchProducts();
+    const loadItems = async () => {
+      const data = await fetchPricingItems();
+      setItems(data.length > 0 ? data.slice(0, 6) : defaultPricing);
+      setLoading(false);
+    };
+    loadItems();
   }, []);
-
-  const fetchProducts = async () => {
-    const { data, error } = await supabase
-      .from("products")
-      .select("id, title, description, category, price")
-      .not("price", "is", null)
-      .order("price", { ascending: true })
-      .limit(6);
-
-    if (!error && data && data.length > 0) {
-      setProducts(data);
-    }
-    setLoading(false);
-  };
-
-  const displayItems = products.length > 0 ? products : defaultPricing;
 
   return (
     <section className="py-24 relative overflow-hidden" id="pricing">
@@ -69,8 +50,8 @@ const PricingSection = () => {
           </div>
         ) : (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-            {displayItems.map((item, index) => (
-              <ScrollReveal key={item.id} delay={index * 0.1}>
+            {items.map((item, index) => (
+              <ScrollReveal key={item._id} delay={index * 0.1}>
                 <motion.div
                   whileHover={{ y: -5, scale: 1.02 }}
                   className="bg-card border border-border/50 rounded-xl p-6 h-full flex flex-col relative overflow-hidden group"
